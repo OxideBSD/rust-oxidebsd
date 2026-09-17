@@ -88,3 +88,9 @@ rustc-std-workspace-std = { path = 'rustc-std-workspace-std' }
 
 # See comments in `library/windows-sys/Cargo.toml` for why this is patched
 windows-sys = { path = 'windows-sys' }
+
+# OxideBSD: adds target_os = "oxidebsd" to libc's internal cfg gates so it reuses the same
+# musl-shaped code paths real x86_64-unknown-linux-musl already does (our musl fork's public C
+# ABI is unchanged from stock -- confirmed separately). See OxideBSD/libc-oxidebsd, oxidebsd
+# branch, pinned to the 0.2.185 tag to match this Cargo.lock's own resolved version.
+libc = { git = "https://github.com/OxideBSD/libc-oxidebsd.git", branch = "oxidebsd" }
