@@ -426,6 +426,7 @@ pub fn set_name(name: &CStr) {
 
 #[cfg(any(
     target_os = "linux",
+    target_os = "oxidebsd",
     target_os = "freebsd",
     target_os = "dragonfly",
     target_os = "nuttx",

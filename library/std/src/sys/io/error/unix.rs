@@ -13,6 +13,7 @@ unsafe extern "C" {
     #[cfg_attr(
         any(
             target_os = "linux",
+            target_os = "oxidebsd",
             target_os = "emscripten",
             target_os = "fuchsia",
             target_os = "l4re",

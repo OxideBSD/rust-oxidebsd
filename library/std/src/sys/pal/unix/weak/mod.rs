@@ -46,7 +46,7 @@ mod dlsym;
 #[cfg(all(target_os = "linux", target_env = "gnu"))]
 pub(crate) use dlsym::weak as dlsym;
 
-#[cfg(any(target_os = "android", target_os = "linux"))]
+#[cfg(any(target_os = "android", target_os = "linux", target_os = "oxidebsd"))]
 mod syscall;
-#[cfg(any(target_os = "android", target_os = "linux"))]
+#[cfg(any(target_os = "android", target_os = "linux", target_os = "oxidebsd"))]
 pub(crate) use syscall::syscall;
