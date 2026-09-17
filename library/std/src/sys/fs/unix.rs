@@ -1164,6 +1164,7 @@ impl DirEntry {
         target_os = "illumos",
         target_os = "l4re",
         target_os = "linux",
+        target_os = "oxidebsd",
         target_os = "nto",
         target_os = "qnx",
         target_os = "redox",

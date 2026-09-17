@@ -1,6 +1,6 @@
 cfg_select! {
     // Tier 1
-    any(target_os = "linux", target_os = "android") => {
+    any(target_os = "linux", target_os = "android", target_os = "oxidebsd") => {
         mod linux;
         pub use linux::{fill_bytes, hashmap_random_keys};
     }
@@ -119,6 +119,7 @@ cfg_select! {
 #[cfg(not(any(
     target_os = "linux",
     target_os = "android",
+    target_os = "oxidebsd",
     all(target_family = "wasm", target_os = "unknown"),
     all(target_os = "wasi", not(target_env = "p1")),
     target_os = "xous",
