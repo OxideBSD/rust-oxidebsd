@@ -591,10 +591,33 @@ impl Socket {
         Ok(local_creds_persistent != 0)
     }
 
-    #[cfg(not(any(target_os = "solaris", target_os = "illumos", target_os = "vita")))]
+    #[cfg(not(any(
+        target_os = "solaris",
+        target_os = "illumos",
+        target_os = "vita",
+        target_os = "oxidebsd"
+    )))]
     pub fn set_nonblocking(&self, nonblocking: bool) -> io::Result<()> {
         let mut nonblocking = nonblocking as libc::c_int;
         cvt(unsafe { libc::ioctl(self.as_raw_fd(), libc::FIONBIO, &mut nonblocking) }).map(drop)
+    }
+
+    // OxideBSD: real ioctl(2) only handles TCGETS/TCSETS*/TIOCGWINSZ/TIOCSWINSZ against the real
+    // console fd -- FIONBIO against a socket fd always fails ENOTTY. Real
+    // fcntl(F_GETFL)/fcntl(F_SETFL, O_NONBLOCK) is genuinely supported instead (same fallback
+    // sys/fd/unix.rs's own generic set_nonblocking already uses for every non-Linux target).
+    #[cfg(target_os = "oxidebsd")]
+    pub fn set_nonblocking(&self, nonblocking: bool) -> io::Result<()> {
+        let previous = cvt(unsafe { libc::fcntl(self.as_raw_fd(), libc::F_GETFL) })?;
+        let new = if nonblocking {
+            previous | libc::O_NONBLOCK
+        } else {
+            previous & !libc::O_NONBLOCK
+        };
+        if new != previous {
+            cvt(unsafe { libc::fcntl(self.as_raw_fd(), libc::F_SETFL, new) })?;
+        }
+        Ok(())
     }
 
     #[cfg(target_os = "vita")]
