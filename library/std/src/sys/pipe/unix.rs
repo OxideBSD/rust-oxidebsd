@@ -22,7 +22,10 @@ pub fn pipe() -> io::Result<(Pipe, Pipe)> {
             target_os = "netbsd",
             target_os = "openbsd",
             target_os = "cygwin",
-            target_os = "redox"
+            target_os = "redox",
+            // OxideBSD: real pipe2(2) with real O_CLOEXEC support (modules/posix_compat's
+            // oxidebsd_sys_pipe2) -- see CLAUDE.md's "Interactive shell"/BusyBox port sections.
+            target_os = "oxidebsd"
         ) => {
             unsafe {
                 cvt(libc::pipe2(fds.as_mut_ptr(), libc::O_CLOEXEC))?;
