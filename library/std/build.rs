@@ -58,6 +58,10 @@ fn main() {
         || target_os == "nuttx"
         || target_os == "cygwin"
         || target_os == "vexos"
+        // OxideBSD: reuses std's existing sys::pal::unix backend (see
+        // library/std/src/os/linux.rs and library/std/src/sys/pal/unix) against our patched musl
+        // fork -- a real, fully-supported target, not one std merely tolerates.
+        || target_os == "oxidebsd"
 
         // See src/bootstrap/src/core/build_steps/synthetic_targets.rs
         || env::var("RUSTC_BOOTSTRAP_SYNTHETIC_TARGET").is_ok()
