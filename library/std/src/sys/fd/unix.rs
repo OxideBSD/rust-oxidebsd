@@ -577,6 +577,10 @@ impl FileDesc {
         target_os = "nto",
         target_os = "qnx",
         target_os = "wasi",
+        // OxideBSD: real ioctl(2) only handles TCGETS/TCSETS*/TIOCGWINSZ/TIOCSWINSZ against the
+        // real console fd -- FIOCLEX against an arbitrary fd (e.g. a pipe) always fails ENOTTY.
+        // Real fcntl(F_SETFD, FD_CLOEXEC) below is genuinely supported instead.
+        target_os = "oxidebsd",
     )))]
     pub fn set_cloexec(&self) -> io::Result<()> {
         unsafe {
@@ -602,6 +606,7 @@ impl FileDesc {
         target_os = "nto",
         target_os = "qnx",
         target_os = "wasi",
+        target_os = "oxidebsd",
     ))]
     pub fn set_cloexec(&self) -> io::Result<()> {
         unsafe {
