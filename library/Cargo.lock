@@ -147,8 +147,7 @@ dependencies = [
 [[package]]
 name = "libc"
 version = "0.2.185"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "52ff2c0fe9bc6cb6b14a0592c2ff4fa9ceb83eea9db979b0487cd054946a2b8f"
+source = "git+https://github.com/OxideBSD/libc-crate-oxidebsd.git?branch=oxidebsd#47649d80c5d67ace0049fa0e2dba2954c60fd475"
 dependencies = [
  "rustc-std-workspace-core",
 ]
